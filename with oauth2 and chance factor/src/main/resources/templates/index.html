@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Home</title>
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="css/carousel.css" rel="stylesheet"/>
+    <meta name="theme-color" content="#7952b3"/>
+</head>
+<body class="text-center">
+<header th:replace="common/navbar :: navbar"></header>
+<main>
+        <!-- START THE FEATURETTES -->
+
+        <hr class="featurette-divider">
+
+        <div class="row featurette">
+            <div class="col-md-7">
+                <h1 class="featurette-heading">Make an impact</h1>
+                <p class="lead">For a happy society donate today</p>
+            </div>
+            <div class="col-md-5">
+                <img th:src="@{/image/happypeople.jpg}" width="700px" height="500px">
+
+            </div>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <div class="row featurette">
+            <div class="col-md-7 order-md-2">
+                <h2 class="featurette-heading">How do you know that your money goes to the right place?</h2>
+                <p class="lead">We have a team of moderators working day and night to make sure that help is received where help is needed</p>
+            </div>
+            <div class="col-md-5 order-md-1">
+                <img th:src="@{/image/moderators.jpg}" width="700px" height="500px">
+            </div>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <div class="row featurette">
+            <div class="col-md-7">
+                <h2 class="featurette-heading">Donate today</h2>
+                <a th:href="@{/album?page=1&sort=id&order=desc&groupBy=all}" class="btn btn-warning">Go to posts now</a>
+            </div>
+            <div class="col-md-5">
+                <img th:src="@{/image/donatenow.jpg}" width="700px" height="500px">
+            </div>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <!-- /END THE FEATURETTES -->
+
+    </div><!-- /.container -->
+
+
+    <!-- FOOTER -->
+    <footer class="container">
+
+    </footer>
+</main>
+<script src="/js/bootstrap.min.js"></script>
+</body>
+</html>

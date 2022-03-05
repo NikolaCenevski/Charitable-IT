@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>My profile</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="css/myProfile.css" rel="stylesheet"/>
+</head>
+<body>
+<header th:replace="common/navbar :: navbar"></header>
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <symbol id="table" viewBox="0 0 16 16">
+        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z"/>
+    </symbol>
+    <symbol id="people-circle" viewBox="0 0 16 16">
+        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+        <path fill-rule="evenodd"
+              d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+    </symbol>
+    <symbol id="grid" viewBox="0 0 16 16">
+        <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z"/>
+    </symbol>
+</svg>
+
+
+<!--Sidebar-->
+<div class="container-fluid overflow-hidden">
+    <div class="row overflow-auto" id="rowHeight">
+        <div class="col-12 col-sm-3 col-xl-2 px-sm-2 px-0 bg-light d-flex sticky-top">
+            <div class="d-flex flex-sm-column flex-row flex-grow-1 align-items-center align-items-sm-start px-3 pt-2 text-dark">
+                <ul class="nav nav-pills flex-sm-column flex-row flex-nowrap flex-shrink-1 flex-sm-grow-0 flex-grow-1 mb-sm-auto mb-0 justify-content-center align-items-center align-items-sm-start"
+                    id="menu">
+                    <li class="nav-item">
+                        <a th:href="@{/userInformation}" class="nav-link px-sm-0 px-2">
+                            <svg class="bi fs5" width="24" height="24">
+                                <use xlink:href="#people-circle"/>
+                            </svg>
+                            <span class="ms-1 d-none d-sm-inline">User information</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/myDonations}" class="nav-link px-sm-0 px-2">
+                            <svg class="bi" width="24" height="24">
+                                <use xlink:href="#table"/>
+                            </svg>
+                            <span class="ms-1 d-none d-sm-inline">My donations</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/myPosts}" class="nav-link px-sm-0 px-2">
+                            <svg class="bi" width="24" height="24">
+                                <use xlink:href="#grid"/>
+                            </svg>
+                            <span class="ms-1 d-none d-sm-inline">My posts</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--SideBar end-->
+
+        <!--User information-->
+        <div class="col d-flex flex-column h-sm-100" th:if="${userInformation}">
+            <main class="row overflow-auto">
+                <div class="col pt-4">
+                    <h3>User Information</h3>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">First Name</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary" th:text="${user.firstName}">
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Last Name</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary" th:text="${user.lastName}">
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Email</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary" th:text="${user.email}">
+                                </div>
+                            </div>
+                            <hr>
+                            <form th:action="@{/changePassword}" method="post">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Old Password</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input class="form-control" type="password" name="oldPassword">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">New Password</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input class="form-control" type="password" name="newPassword">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Confirm Password</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input class="form-control" type="password" name="confirmPassword">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <input type="submit" class="btn btn-info" value="Change password">
+                                    </div>
+                                </div>
+                            </form>
+                            <div th:if="${changedPassword}" class="text-success">Password changed</div>
+                            <div th:if="${notChangedPassword}" class="text-danger">One of the passwords doesn't match
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <main class="row overflow-auto">
+                <div class="col pt-4">
+                    <h3>Payment</h3>
+                    <div class="card">
+                        <div class="card-body">
+                            <div style="float: right">
+                                <img src="https://img.icons8.com/color/48/000000/visa.png"/>
+                                <img src="https://img.icons8.com/color/48/000000/mastercard-logo.png"/>
+                                <img src="https://img.icons8.com/color/48/000000/maestro.png"/>
+                            </div>
+                            <br/>
+                            <br/>
+                            <form th:action="@{/changeCardInfo}" method="post">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="cardName" class="form-label">Cardholder's name</label>
+                                        <input type="text" class="form-control" id="cardName" name="cardName"
+                                               placeholder="Name on card">
+                                    </div>
+                                    <div class="col-md-6 mb-0">
+                                        <label for="cardNumber" class="form-label">Card Number</label>
+                                        <input type="text" class="form-control" id="cardNumber" name="cardNumber"
+                                               placeholder="0000 0000 0000 0000">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="expiryDate" class="form-label">Expiry date</label>
+                                        <input type="text" class="form-control" id="expiryDate" name="expiryDate"
+                                               placeholder="MM/YY">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="cvv" class="form-label">CVV</label>
+                                        <input type="text" class="form-control" id="cvv" name="cvv" placeholder="XXX">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <input type="submit" class="btn btn-info" value="Change card information">
+                                        <a class="btn btn-danger" th:href="@{/removeCardInfo}">Remove card
+                                            information</a>
+                                    </div>
+                                </div>
+                            </form>
+                            <div th:if="${creditCardError}" class="text-danger">Error</div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+        <!--UserInformationEnd-->
+
+        <!--MyDonations-->
+        <div class="col d-flex flex-column h-sm-100" th:if="${myDonations}">
+            <main class="row overflow-auto">
+                <div class="col pt-4">
+                    <h3>My donations</h3>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h6>Post</h6>
+                                </div>
+                                <div class="col text-secondary">
+                                    <h6>Amount (MKD)</h6>
+                                </div>
+                            </div>
+                            <div class="row" th:each="donation : ${donations}">
+                                <div class="col">
+                                    <a th:text="${donation.title}" th:href="@{/post(postid=${donation.postId})}"></a>
+                                </div>
+                                <div class="col text-secondary" th:text="${donation.donatedAmount}">
+                                </div>
+                                <hr class="dropdown-divider">
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <h6>Total</h6>
+                                </div>
+                                <div class="col text-secondary">
+                                    <h6 th:text="${total}"></h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+        <!--MyDonationsEnd-->
+
+        <!--MyPosts-->
+        <div class="col d-flex flex-column h-sm-100" th:if="${myPosts}">
+            <main class="row overflow-auto">
+                <div class="col pt-4">
+                    <h3>My Posts</h3>
+                    <div class="row">
+                        <div class="col-md-6" th:each="post : ${postList}">
+                            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                                <div class="col p-4 d-flex flex-column position-static">
+                                    <h3 class="mb-0" th:text="${post.title}"></h3>
+                                    <p class="card-text mb-auto" th:text="${post.description}"></p>
+                                    <div class="row">
+                                        <div class="col">
+                                            <a class="btn btn-sm btn-outline-secondary"
+                                               th:href="@{/post(postid=${post.id})}">Open</a>
+                                            <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal"
+                                                    th:data-bs-target="'#m' + ${post.id}">
+                                                Add collected funds
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-auto d-none d-lg-block">
+                                    <img th:src="${post.imagesPath[0]}" width="200" height="250"
+                                         style="object-fit: contain">
+                                </div>
+                            </div>
+                            <div class="modal fade" th:id="'m' + ${post.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="staticBackdropLabel">Add funds</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="card-body">
+                                                <form th:id="'my-form' + ${post.id}" th:action="@{/addFunds(postid=${post.id})}" method="post">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <label for="type" class="form-label">Type</label>
+                                                            <select id="type" class="form-select" name="type">
+                                                                <option value="Bank donation">Bank donation</option>
+                                                                <option value="Phone donation">Phone donation</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="amount" class="form-label">Amount</label>
+                                                            <input id="amount" type="number" class="form-control" name="amount">
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <input class="btn btn-primary" type="submit" th:form="'my-form' + ${post.id}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+        <!--MyPostsEnd-->
+    </div>
+</div>
+
+
+<script src="/js/bootstrap.min.js"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    var creditCardInfo = /*[[${user.creditCardInfo}]]*/ 'default';
+    if (creditCardInfo) {
+        var parts = creditCardInfo.split(",");
+        document.getElementById("cardName").value = parts[0];
+        document.getElementById("cardNumber").value = parts[1];
+        document.getElementById("expiryDate").value = parts[2];
+        document.getElementById("cvv").value = parts[3];
+    }
+
+    /*]]>*/
+</script>
+</body>
+</html>

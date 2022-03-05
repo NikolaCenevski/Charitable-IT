@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<header th:fragment="navbar">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark" >
+        <div class="container-fluid">
+            <a class="navbar-brand" th:href="@{/}">
+                <img th:src="@{/image/charity.png}" class="bi me-2" width="40" height="32" />
+                <span class="fs-4">Charitable</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item">
+                        <a sec:authorize="isAnonymous() or hasAuthority('USER')" th:href="@{/}" class="nav-link px-2 text-white">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a sec:authorize="isAnonymous() or hasAuthority('USER')" th:href="@{/album?page=1&sort=id&order=desc&groupBy=all}" class="nav-link px-2 text-white">Posts</a>
+                        <a sec:authorize="hasAuthority('MODERATOR')" th:href="@{/moderator/approval?page=1&sort=id}" class="nav-link px-2 text-white">Posts for approval</a>
+                    </li>
+                    <li class="nav-item">
+                        <a sec:authorize="hasAuthority('USER')" th:href="@{/upload}" class="nav-link px-2 text-white">Upload</a>
+                        <a sec:authorize="hasAuthority('MODERATOR')" th:href="@{/moderator/report?page=1&sort=id}" class="nav-link px-2 text-white">Reported posts</a>
+                    </li>
+                </ul>
+
+                <div class="text-end">
+                    <a sec:authorize="isAnonymous()" type="button" class="btn btn-outline-light me-2" th:href="@{/login}">Login</a>
+                    <a sec:authorize="isAnonymous()" type="button" class="btn btn-warning" th:href="@{/register}">Sign-up</a>
+                    <a sec:authorize="isAuthenticated() and hasAuthority('USER')" type="button" class="btn btn-outline-light me-2" th:href="@{/userInformation}">My profile - <span th:text="${user.firstName}"></span></a>
+                    <a sec:authorize="isAuthenticated() and hasAuthority('MODERATOR')" type="button" class="btn btn-outline-light me-2" th:href="@{/moderator/myApprovedPosts?page=1&sort=id}">My approved posts - <span th:text="${user.firstName} + ${user.lastName}"></span></a>
+                    <a sec:authorize="isAuthenticated()" type="button" class="btn btn-warning" th:href="@{/logout}">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+</body>
+</html>

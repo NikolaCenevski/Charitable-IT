@@ -1,0 +1,10 @@
+@media screen and (min-width: 800px) {
+
+    #rowHeight {
+        height: 100vh;
+    }
+}
+
+header {
+    margin-bottom: 60px;
+}

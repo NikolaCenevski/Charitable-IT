@@ -1,0 +1,226 @@
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Register</title>
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="css/carousel.css" rel="stylesheet"/>
+    <meta name="theme-color" content="#7952b3"/>
+</head>
+<body>
+<header th:replace="common/navbar :: navbar"></header>
+<br/>
+<br/>
+<br/>
+<div th:if="${notFound}">
+    Post not found
+</div>
+<div th:unless="${notFound}">
+<div class="row">
+    <div class="col-md-6" style="margin-left: 5px">
+        <div class="col-md-12">
+
+            <div id="myCarousel" class="carousel carousel-dark slide card" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button th:each="image, itrStat : ${post.imagesPath}" type="button" data-bs-target="#myCarousel"
+                            th:data-bs-slide-to="${itrStat.index}" th:classappend="${itrStat.index} == 0 ? active"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div th:each="image, itrStat : ${post.imagesPath}" th:classappend="${itrStat.index} == 0 ? active"
+                         class="carousel-item">
+                        <img class="card-img" th:src="${image}" style="object-fit: contain">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5" style="margin-left: 5px">
+        <div class="col-md-12">
+            <h1 th:text="${post.title}"></h1>
+            <h5>Description:</h5>
+            <p th:text="${post.description}"></p>
+            <h5>Funds needed:</h5>
+            <p><span th:text="${total}"></span>/<span th:text="${post.fundsNeeded}"></span> - <span th:text="${post.currency}"></span></p>
+            <h5>Date due:</h5>
+            <p th:text="${post.dateDue}"></p>
+            <h5>Bank account:</h5>
+            <p th:text="${post.bankAccount}"></p>
+            <h5>Phone numbers:</h5>
+            <p><span th:text="${post.phoneNumbers[0]}"></span> - Telekom</p>
+            <p><span th:text="${post.phoneNumbers[1]}"></span> - A1</p>
+            <h5>Created by:</h5>
+            <p><span th:text="${createdByFirstName}"></span> <span th:text="${createdByLastName}"></span></p>
+            <h5>Approved by:</h5>
+            <p th:unless="${moderatorFirstName}">Not approved</p>
+            <p><span th:text="${moderatorFirstName}"></span> <span th:text="${moderatorLastName}"></span></p>
+
+            <button sec:authorize="isAuthenticated()" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                Donate
+            </button>
+            <button sec:authorize="isAnonymous()" type="button" class="btn btn-primary" disabled>
+                Donate
+            </button>
+            <button sec:authorize="isAuthenticated()" type="button" class="btn btn-danger" data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop1">
+                Report
+            </button>
+            <button sec:authorize="isAnonymous()" type="button" class="btn btn-danger" disabled>
+                Report
+            </button>
+            <div id="error" class="text-danger" hidden>Donation error</div>
+
+            <!-- Modal -->
+            <div sec:authorize="isAuthenticated()" class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Donate</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="card-body">
+                                <div style="float: right">
+                                    <img src="https://img.icons8.com/color/48/000000/visa.png"/>
+                                    <img src="https://img.icons8.com/color/48/000000/mastercard-logo.png"/>
+                                    <img src="https://img.icons8.com/color/48/000000/maestro.png"/>
+                                </div>
+                                <br/>
+                                <br/>
+                                <form th:action="@{/donate(postid=${post.id})}" method="post" id="myForm">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="cardName" class="form-label">Cardholder's name</label>
+                                            <input type="text" class="form-control" id="cardName" name="cardName"
+                                                   placeholder="Name on card" required>
+                                        </div>
+                                        <div class="col-md-6 mb-0">
+                                            <label for="cardNumber" class="form-label">Card Number</label>
+                                            <input type="text" class="form-control" id="cardNumber" name="cardNumber"
+                                                   placeholder="0000 0000 0000 0000" required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="expiryDate" class="form-label">Expiry date</label>
+                                            <input type="text" class="form-control" id="expiryDate" name="expiryDate"
+                                                   placeholder="MM/YY" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="cvv" class="form-label">CVV</label>
+                                            <input type="text" class="form-control" id="cvv" name="cvv" placeholder="XXX" required>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="amount" class="form-label">Amount</label>
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" id="amount" name="amount" required>
+                                                <span class="input-group-text">MKD</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <input type="submit" class="btn btn-primary" form="myForm" value="Confirm">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div sec:authorize="isAuthenticated()" class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false"
+                 tabindex="-1" aria-labelledby="staticBackdropLabel1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel1">Report post</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="card-body">
+                                <form th:action="@{/report(postid=${post.id})}" method="post"
+                                      id="myForm1">
+                                    <label for="description">Description</label>
+                                    <textarea class="form-control" id="description" name="description"
+                                              rows="5"></textarea>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <input type="submit" class="btn btn-primary" form="myForm1" value="Confirm">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+    <div class="col-md-8">
+    <h3>Funds collected</h3>
+    <div class="card mb-3">
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <h6>Type</h6>
+                </div>
+                <div class="col text-secondary">
+                    <h6>Amount (MKD)</h6>
+                </div>
+            </div>
+            <div class="row" th:each="funds : ${post.fundsCollected}">
+                <div class="col">
+                    <h6 th:text="${funds.description}"></h6>
+                </div>
+                <div class="col text-secondary" th:text="${funds.funds}">
+                </div>
+                <hr class="dropdown-divider">
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+</div>
+</div>
+<script src="/js/bootstrap.min.js"></script>
+<script>
+    location.search
+        .substr(1)
+        .split("&")
+        .forEach(function (item) {
+            tmp = item.split("=");
+            if (tmp[0] === "error") {
+                document.getElementById("error").hidden = false;
+            }
+        });
+</script>
+<script th:inline="javascript" th:unless="${notFound}" sec:authorize="isAuthenticated()">
+    /*<![CDATA[*/
+
+    var creditCardInfo = /*[[${user.creditCardInfo}]]*/ 'default';
+    if(creditCardInfo) {
+        var parts = creditCardInfo.split(",");
+        document.getElementById("cardName").value=parts[0];
+        document.getElementById("cardNumber").value=parts[1];
+        document.getElementById("expiryDate").value=parts[2];
+        document.getElementById("cvv").value=parts[3];
+    }
+
+    /*]]>*/
+</script>
+</body>
+</html>

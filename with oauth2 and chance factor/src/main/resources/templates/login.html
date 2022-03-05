@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Login</title>
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="css/login.css" rel="stylesheet"/>
+    <meta name="theme-color" content="#7952b3"/>
+</head>
+<body class="text-center">
+<header th:replace="common/navbar :: navbar"></header>
+<main class="form-signin">
+    <form th:action="@{/login}" method="post">
+        <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+
+        <div class="form-floating">
+            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="username" required>
+            <label for="floatingInput">Email address</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" required>
+            <label for="floatingPassword">Password</label>
+        </div>
+
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+    </form>
+    <a th:href="@{/oauth2/authorization/google}" class="btn btn-warning" style="width:200px; margin-top:20px;">Continue with Google</a>
+    <a th:href="@{/oauth2/authorization/facebook}" class="btn btn-info"style="width:200px; margin-top:20px;">Continue with Facebook</a>
+    <p th:if="${param.error != null}" class="text-danger">Incorrect username or password</p>
+    <p th:if="${successValidation}" class="text-success">Account validated</p>
+    <p th:if="${error}" class="text-danger">Account token expired or does not exist</p>
+</main>
+<script src="/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Album</title>
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+<body>
+<header th:replace="common/navbar :: navbar"></header>
+<hr class="dropdown-divider">
+<br/>
+<br/>
+<main>
+    <p th:if="${noPosts}">No posts</p>
+    <div th:unless="${noPosts}" class="album py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2">
+                    <label class="form-label" for="sortBy">Sort By</label>
+                    <select class="input-group-text" id="sortBy">
+                        <option value="id">Default</option>
+                        <option value="numReports">Number of reports</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label" for="order">Order</label>
+                    <select class="input-group-text" id="order">
+                        <option value="asc">Ascending</option>
+                        <option value="desc">Descending</option>
+                    </select>
+                </div>
+            </div>
+            <br/>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                <div class="col" th:each="post : ${postList}">
+                    <div class="card shadow-sm">
+                        <img class="card-img" style="object-fit: contain" width="100%" height="225"
+                             th:src="${post.donationPost.imagesPath[0]}">
+                        <div class="card-body overflow-hidden">
+                            <h4 th:text="${post.donationPost.title}" style="height: 60px"></h4>
+                            <p class="card-text text-truncate" style="height: 45px" th:text="${post.donationPost.description}"></p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <a class="btn btn-sm btn-outline-secondary" th:href="@{/moderator/reportPost(postid=${post.id})}">Open</a>
+                                </div>
+                                <span class="text-muted">Number of reports: <small th:text="${post.numReports}"></small></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="ui-menu-divider" />
+            <nav>
+                <div id="pagination"></div>
+            </nav>
+    </div>
+
+</main>
+<script src="/js/bootstrap.min.js"></script>
+<script id="helper" src="/js/pagination.js" th:data-pages="${totalPages}"></script>
+</body>
+</html>

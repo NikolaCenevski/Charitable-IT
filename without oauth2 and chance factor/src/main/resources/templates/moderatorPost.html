@@ -1,0 +1,110 @@
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Register</title>
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/css/carousel.css" rel="stylesheet"/>
+    <meta name="theme-color" content="#7952b3"/>
+</head>
+<body>
+<header th:replace="common/navbar :: navbar"></header>
+<br/>
+<br/>
+<br/>
+<div th:if="${notFound}">
+    Post not found
+</div>
+<div th:unless="${notFound}">
+    <div class="row">
+        <div class="col-md-6" style="margin-left: 5px">
+            <div class="col-md-12">
+
+                <div id="myCarousel" class="carousel carousel-dark slide card" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button th:each="image, itrStat : ${post.moderatorPath}" type="button"
+                                data-bs-target="#myCarousel"
+                                th:data-bs-slide-to="${itrStat.index}"
+                                th:classappend="${itrStat.index} == 0 ? active"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div th:each="image, itrStat : ${post.moderatorPath}"
+                             th:classappend="${itrStat.index} == 0 ? active"
+                             class="carousel-item">
+                            <img class="card-img" th:src="${image}" style="object-fit: contain">
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel"
+                            data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel"
+                            data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5" style="margin-left: 5px">
+            <div class="col-md-12">
+                <h1 th:text="${post.title}"></h1>
+                <h5>Description:</h5>
+                <p th:text="${post.description}"></p>
+                <h5>Funds needed:</h5>
+                <p><span th:text="${total}"></span>/<span th:text="${post.fundsNeeded}"></span> - <span
+                        th:text="${post.currency}"></span></p>
+                <h5>Date due:</h5>
+                <p th:text="${post.dateDue}"></p>
+                <h5>Bank account:</h5>
+                <p th:text="${post.bankAccount}"></p>
+                <h5>Phone numbers:</h5>
+                <p><span th:text="${post.phoneNumbers[0]}"></span> - Telekom</p>
+                <p><span th:text="${post.phoneNumbers[1]}"></span> - A1</p>
+                <h5>Created by:</h5>
+                <p><span th:text="${createdByFirstName}"></span> <span th:text="${createdByLastName}"></span></p>
+
+                <div th:unless="${approved}">
+                    <a class="btn btn-success" th:href="@{/moderator/approvePost(postid=${post.id})}">Approve</a>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop">
+                        Dont Approve
+                    </button>
+                </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+                     tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="staticBackdropLabel">Dont approve</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="card-body">
+                                    <form th:action="@{/moderator/dontApprove(postid=${post.id})}" method="post"
+                                          id="myForm">
+                                        <label for="description">Description</label>
+                                        <textarea class="form-control" id="description" name="description"
+                                                  rows="5"></textarea>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <input type="submit" class="btn btn-primary" form="myForm" value="Confirm">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/bootstrap.min.js"></script>
+</body>
+</html>

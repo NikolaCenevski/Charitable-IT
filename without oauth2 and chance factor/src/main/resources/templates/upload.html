@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Upload</title>
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="css/fileUploadPreview.css" rel="stylesheet"/>
+</head>
+<body>
+<header th:replace="common/navbar :: navbar"></header>
+<br/>
+<br/>
+<br/>
+<br/>
+<div class="row">
+    <div th:if="${error}" class="text-danger">Error uploading post</div>
+    <div class="col-md-4" id="left">
+        <form th:action="@{/newPost}" method="post" id="myForm" enctype="multipart/form-data" class="row g-3">
+            <div class="col-md-6">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" name="title" required>
+            </div>
+            <div class="col-md-6">
+                <label for="fundsNeeded" class="form-label">Funds Needed</label>
+                <div class="input-group">
+                    <input type="number" class="form-control" id="fundsNeeded" name="fundsNeeded" required>
+                    <select class="input-group-text" name="currency">
+                        <option value="MKD">MKD</option>
+                        <option value="EUR">EUR</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-12">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" id="description" name="description" rows="5" required></textarea>
+            </div>
+            <div class="col-12">
+                Phone numbers
+            </div>
+            <div class="col-md-6">
+                <!--                <label for="telekom" class="form-label">Phone numbers</label>-->
+                <div class="input-group">
+                    <input type="text" class="form-control" id="telekom" name="telekom">
+                    <span class="input-group-text">Telekom</span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <!--                <label for="a1" class="form-label"></label>-->
+                <div class="input-group">
+                    <input type="text" class="form-control" id="a1" name="a1">
+                    <span class="input-group-text">A1</span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label for="dateDue" class="form-label">Date due</label>
+                <input type="date" class="form-control" id="dateDue" name="dateDue" required>
+            </div>
+            <div class="col-md-6">
+                <label for="bankAccount" class="form-label">Bank account</label>
+                <input type="text" class="form-control" id="bankAccount" name="bankAccount" required>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-5" id="right">
+        <div class="col-md-6">
+            <label for="titleImage" class="form-label">Title image</label>
+            <input type="file" class="form-control" id="titleImage" name="titleImage" form="myForm" required>
+        </div>
+        <div class="col-md-6">
+            <label for="images" class="form-label">Images</label>
+            <input type="file" class="form-control" id="images" name="images" form="myForm" multiple>
+        </div>
+        <div class="col-md-6">
+            <label for="images" class="form-label">Moderator images</label>
+            <input type="file" class="form-control" id="moderatorImages" name="moderatorImages" form="myForm" multiple required>
+        </div>
+        <br/>
+        <div id="drop-region">
+            <div class="drop-message">
+                Image preview
+            </div>
+            <div id="image-preview"></div>
+        </div>
+        <div class="row">
+            <div class="col-5"></div>
+            <div class="col-2">
+                <input type="submit" class="btn btn-primary" value="Upload post" form="myForm">
+            </div>
+            <div class="col-5"></div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/fileUploadPreview.js"></script>
+</body>
+</html>

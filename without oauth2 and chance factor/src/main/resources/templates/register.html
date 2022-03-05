@@ -1,0 +1,57 @@
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Register</title>
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="css/login.css" rel="stylesheet"/>
+    <meta name="theme-color" content="#7952b3"/>
+</head>
+<body class="text-center">
+<header th:replace="common/navbar :: navbar"></header>
+<main class="form-signin">
+    <form th:action="@{/register}" method="post">
+        <h1 class="h3 mb-3 fw-normal">Register</h1>
+
+        <div class="form-floating">
+            <input type="text" class="form-control" th:classappend="${nameError} ? is-invalid" id="floatingFirstName" placeholder="First Name" name="firstName" required>
+            <label for="floatingFirstName">First Name</label>
+        </div>
+        <div class="form-floating">
+            <input type="text" class="form-control" th:classappend="${nameError} ? is-invalid" id="floatingLastName" placeholder="Last Name" name="lastName" required>
+            <label for="floatingLastName">Last Name</label>
+            <div class="invalid-feedback">
+                Firstname and lastname are required
+            </div>
+        </div>
+        <div class="form-floating">
+            <input type="email" class="form-control" th:classappend="${emailError} ? is-invalid" id="floatingInput" placeholder="name@example.com" name="email" required>
+            <label for="floatingInput">Email address</label>
+            <div class="invalid-feedback">
+                Email not valid.
+            </div>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control" th:classappend="${passwordError} ? is-invalid" id="floatingPassword" placeholder="Password" name="password" required>
+            <label for="floatingPassword">Password</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control" th:classappend="${passwordError} ? is-invalid" id="floatingConfirmPassword" placeholder="Confirm Password" name="confirmPassword" required>
+            <label for="floatingConfirmPassword">Confirm Password</label>
+            <div class="invalid-feedback">
+                Password does not match
+            </div>
+        </div>
+
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Register</button>
+    </form>
+    <p th:if="${userExists}" class="text-danger">User already exists</p>
+    <div th:if="${success}" class="text-success">
+        <p>Registration successful</p>
+        <p>Please check your registered email for email verification</p>
+    </div>
+</main>
+<script src="/js/bootstrap.min.js"></script>
+</body>
+</html>
